@@ -3,6 +3,7 @@ from collections import namedtuple
 import numpy as np
 from PIL import Image
 from scipy import signal
+import cv2
 
 Gradient = namedtuple("Gradient", ["dx", "dy"])
 Kernel = namedtuple("Kernel", ["x", "y"])
@@ -26,9 +27,15 @@ def orientation(img, kernel):
 
 
 def open_image(img_path: str, dimensions: tuple):
-    img = Image.open(img_path).convert("L")
-    img = img.resize(dimensions, resample=Image.BICUBIC)
-    return np.array(img, dtype=np.float)
+    # img = Image.open(img_path).convert("L")
+    # img = img.resize(dimensions, resample=Image.BICUBIC)
+    # print(np.array(img, dtype=float))
+    # return np.array(img, dtype=float)
+    # img = cv2.imread(img_path)
+    img = cv2.cvtColor(cv2.imread(img_path), cv2.COLOR_BGR2RGB)
+    img = cv2.resize(img, dimensions, interpolation=cv2.INTER_AREA)
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+    return img.astype(np.float64) / 255.0
 
 
 def weighted_histogram(data, weights, n_bins, hist_range):
@@ -39,7 +46,7 @@ def weighted_histogram(data, weights, n_bins, hist_range):
     for i, x in enumerate(weights):
         i = int(x / step_size) % n_bins
         hist[i] += data[i]
-    return np.array(hist, dtype=np.float)
+    return np.array(hist, dtype=float)
 
 
 def split_blocks(arr, zone_size):

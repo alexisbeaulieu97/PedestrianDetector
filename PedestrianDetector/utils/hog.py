@@ -42,5 +42,5 @@ def hog(img):
             norm = np.sqrt(np.sum(np.sum(sq)))
             normalized_hist[i, j] = np.divide(normalized_hist[i, j], norm)
 
-    # Concatenate results into an array of 9x1 histograms
-    return np.concatenate(np.concatenate(normalized_hist.flatten()))
+    # Concatenate results into feature array
+    return np.concatenate(np.concatenate(np.concatenate(normalized_hist.flatten())))
