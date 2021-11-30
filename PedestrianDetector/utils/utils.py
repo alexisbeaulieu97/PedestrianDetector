@@ -27,11 +27,6 @@ def orientation(img, kernel):
 
 
 def open_image(img_path: str, dimensions: tuple):
-    # img = Image.open(img_path).convert("L")
-    # img = img.resize(dimensions, resample=Image.BICUBIC)
-    # print(np.array(img, dtype=float))
-    # return np.array(img, dtype=float)
-    # img = cv2.imread(img_path)
     img = cv2.cvtColor(cv2.imread(img_path), cv2.COLOR_BGR2RGB)
     img = cv2.resize(img, dimensions, interpolation=cv2.INTER_AREA)
     img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
