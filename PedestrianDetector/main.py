@@ -54,13 +54,14 @@ def test(testpath):
     if os.path.isdir(testpath):
         for filename in listdir(testpath):
             filepath = os.path.join(testpath, filename)
-            X_test.append(get_features(filepath))
+            X_test.append((filename, get_features(filepath)))
     else:
-        X_test = [get_features(testpath)]
+        X_test = [(os.path.basename(testpath), get_features(testpath))]
 
     # predict data class using svm
-    y_test = clf.predict(X_test)
-    click.echo(f"Data is of class: {y_test}")
+    for test_file, test_data in X_test:
+        y_test = clf.predict([test_data])
+        click.echo(f"{test_file} --> {y_test[0]}")
 
 
 @cli.command()
