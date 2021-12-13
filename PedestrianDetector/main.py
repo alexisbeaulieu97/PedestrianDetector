@@ -24,7 +24,7 @@ def train(train_path: str):
 
     # train using provided data
     for data_class in listdir(train_path):
-        class_path = os.path.join(train_path, data_class)
+        class_path = os.path.realpath(os.path.join(train_path, data_class))
         for filebase in listdir(class_path):
             filepath = os.path.join(class_path, filebase)
             train_file(filepath, data_class)
